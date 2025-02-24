@@ -3,7 +3,6 @@ package metrics
 import (
 	"context"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/actions/actions-runner-controller/github/actions"
@@ -47,10 +46,10 @@ var (
 		labelKeyEventName,
 	}
 
-	completedJobsTotalLabels   = append(jobLabels, labelKeyJobResult, labelKeyRunnerID, labelKeyRunnerName)
-	jobExecutionDurationLabels = append(jobLabels, labelKeyJobResult, labelKeyRunnerID, labelKeyRunnerName)
-	startedJobsTotalLabels     = append(jobLabels, labelKeyRunnerID, labelKeyRunnerName)
-	jobStartupDurationLabels   = append(jobLabels, labelKeyRunnerID, labelKeyRunnerName)
+	completedJobsTotalLabels   = append(jobLabels, labelKeyJobResult)
+	jobExecutionDurationLabels = append(jobLabels, labelKeyJobResult)
+	startedJobsTotalLabels     = append(jobLabels)
+	jobStartupDurationLabels   = append(jobLabels)
 )
 
 var (
@@ -165,51 +164,52 @@ var (
 	)
 )
 
+// keep 10 60 300 600 3600
 var runtimeBuckets []float64 = []float64{
-	0.01,
-	0.05,
-	0.1,
-	0.5,
-	1,
-	2,
-	3,
-	4,
-	5,
-	6,
-	7,
-	8,
-	9,
+	//0.01,
+	//0.05,
+	//0.1,
+	//0.5,
+	//1,
+	//2,
+	//3,
+	//4,
+	//5,
+	//6,
+	//7,
+	//8,
+	//9,
 	10,
-	12,
-	15,
-	18,
-	20,
-	25,
-	30,
-	40,
-	50,
+	//12,
+	//15,
+	//18,
+	//20,
+	//25,
+	//30,
+	//40,
+	//50,
 	60,
-	70,
-	80,
-	90,
-	100,
-	110,
-	120,
-	150,
-	180,
-	210,
-	240,
+	//70,
+	//80,
+	//90,
+	//100,
+	//110,
+	//120,
+	//150,
+	//180,
+	//210,
+	//240,
 	300,
-	360,
-	420,
-	480,
-	540,
+	//360,
+	//420,
+	//480,
+	//540,
 	600,
-	900,
-	1200,
-	1800,
-	2400,
-	3000,
+	//900,
+	//1200,
+	//1800,
+	//2400,
+	//3000,
 	3600,
 }
 
@@ -244,16 +244,16 @@ func (b *baseLabels) scaleSetLabels() prometheus.Labels {
 
 func (b *baseLabels) completedJobLabels(msg *actions.JobCompleted) prometheus.Labels {
 	l := b.jobLabels(&msg.JobMessageBase)
-	l[labelKeyRunnerID] = strconv.Itoa(msg.RunnerId)
+	//l[labelKeyRunnerID] = strconv.Itoa(msg.RunnerId)
 	l[labelKeyJobResult] = msg.Result
-	l[labelKeyRunnerName] = msg.RunnerName
+	//l[labelKeyRunnerName] = msg.RunnerName
 	return l
 }
 
 func (b *baseLabels) startedJobLabels(msg *actions.JobStarted) prometheus.Labels {
 	l := b.jobLabels(&msg.JobMessageBase)
-	l[labelKeyRunnerID] = strconv.Itoa(msg.RunnerId)
-	l[labelKeyRunnerName] = msg.RunnerName
+	//l[labelKeyRunnerID] = strconv.Itoa(msg.RunnerId)
+	//l[labelKeyRunnerName] = msg.RunnerName
 	return l
 }
 

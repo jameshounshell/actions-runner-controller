@@ -4,7 +4,7 @@ else
 	DOCKER_IMAGE_NAME ?= summerwind/actions-runner-controller
 endif
 DOCKER_USER ?= $(shell echo ${DOCKER_IMAGE_NAME} | cut -d / -f1)
-VERSION ?= dev
+VERSION ?= 0.10.1
 COMMIT_SHA = $(shell git rev-parse HEAD)
 RUNNER_VERSION ?= 2.322.0
 TARGETPLATFORM ?= $(shell arch)
@@ -50,7 +50,7 @@ endif
 
 # default list of platforms for which multiarch image is built
 ifeq (${PLATFORMS}, )
-	export PLATFORMS="linux/amd64,linux/arm64"
+	export PLATFORMS="linux/amd64"
 endif
 
 # if IMG_RESULT is unspecified, by default the image will be pushed to registry
